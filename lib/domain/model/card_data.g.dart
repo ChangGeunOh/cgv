@@ -11,6 +11,7 @@ CardData _$CardDataFromJson(Map<String, dynamic> json) => CardData(
       imgUrl: json['imgUrl'] as String,
       description: json['description'] as String?,
       link: json['link'] as String?,
+      color: json['color'] as int?,
     );
 
 Map<String, dynamic> _$CardDataToJson(CardData instance) => <String, dynamic>{
@@ -18,4 +19,5 @@ Map<String, dynamic> _$CardDataToJson(CardData instance) => <String, dynamic>{
       'imgUrl': instance.imgUrl,
       'link': instance.link,
       'description': instance.description,
+      'color': instance.color,
     };

@@ -3,18 +3,27 @@ import 'dart:async';
 import 'package:cgv/domain/bloc/bloc_bloc.dart';
 import 'package:cgv/domain/bloc/bloc_event.dart';
 import 'package:cgv/domain/model/movie_data.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'home_event.dart';
 import 'home_state.dart';
 
 class HomeBloc extends BlocBloc<BlocEvent<HomeEvent>, HomeState> {
+  final ScrollController controller = ScrollController();
+
   HomeBloc(super.context, super.initialState) {
+    controller.addListener(() {
+      final isShowTop = controller.offset > 0;
+      if (isShowTop != state.isShowTop) {
+        add(BlocEvent(HomeEvent.onShowTop, extra: isShowTop));
+      }
+    });
     _init();
   }
 
   void _init() async {
-    await repository.initMovieChart();
+    // await repository.initMovieChart();
     final banners = await repository.loadBannerList();
     add(BlocEvent(HomeEvent.onLoadedBanners, extra: banners));
     add(BlocEvent(HomeEvent.onSubMovieChart, extra: 0));
@@ -22,10 +31,8 @@ class HomeBloc extends BlocBloc<BlocEvent<HomeEvent>, HomeState> {
     add(BlocEvent(HomeEvent.onFunctionMenu, extra: functionList));
     final eventList = await repository.loadEventList();
     add(BlocEvent(HomeEvent.onEventList, extra: eventList));
-
     final bandBannerData = await repository.loadBandBannerData();
     add(BlocEvent(HomeEvent.onLoadBandBannerData, extra: bandBannerData));
-
     final iceIconList = await repository.loadIceIconList();
     if (iceIconList != null) {
       add(BlocEvent(HomeEvent.onLoadIceIconList, extra: iceIconList));
@@ -34,6 +41,10 @@ class HomeBloc extends BlocBloc<BlocEvent<HomeEvent>, HomeState> {
     if (recommendMovies != null) {
       add(BlocEvent(HomeEvent.onLoadRecommendMovies, extra: recommendMovies));
     }
+    final popEventData = await repository.loadPopEventData();
+    final popEventList = await repository.loadPopEventList();
+    add(BlocEvent(HomeEvent.onLoadPopData, extra: popEventData));
+    add(BlocEvent(HomeEvent.onLoadPopList, extra: popEventList));
   }
 
   @override
@@ -87,7 +98,6 @@ class HomeBloc extends BlocBloc<BlocEvent<HomeEvent>, HomeState> {
         emit(state.copyWith(eventList: event.extra));
         break;
       case HomeEvent.onLoadBandBannerData:
-        print(event.extra.toJson());
         emit(state.copyWith(bandBannerData: event.extra));
         break;
       case HomeEvent.onLoadIceIconList:
@@ -95,6 +105,28 @@ class HomeBloc extends BlocBloc<BlocEvent<HomeEvent>, HomeState> {
         break;
       case HomeEvent.onLoadRecommendMovies:
         emit(state.copyWith(recommendMoviesList: event.extra));
+        break;
+      case HomeEvent.onShowTop:
+        emit(state.copyWith(isShowTop: event.extra));
+        break;
+      case HomeEvent.onTapTop:
+        controller.animateTo(
+          0,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.bounceIn,
+        );
+        break;
+      case HomeEvent.onLoadPopData:
+        emit(state.copyWith(popEventData: event.extra));
+        break;
+      case HomeEvent.onLoadPopList:
+        emit(state.copyWith(popEventList: event.extra));
+        break;
+      case HomeEvent.onTapToday:
+        emit(state.copyWith(isNotToday: event.extra));
+        break;
+      case HomeEvent.onTapClose:
+        emit(state.copyWith(isPopShow: false));
         break;
     }
   }

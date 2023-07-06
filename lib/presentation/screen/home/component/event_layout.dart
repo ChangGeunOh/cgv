@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../domain/model/function_menu_data.dart';
+import '../../../../domain/model/card_data.dart';
 import 'full_view_button.dart';
 
 
 class EventLayout extends StatelessWidget {
-  final List<FunctionMenuData> eventList;
+  final List<CardData> eventList;
 
   const EventLayout({
     required this.eventList,

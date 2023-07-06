@@ -8,12 +8,14 @@ class CardData {
   final String imgUrl;
   final String? link;
   final String? description;
+  final int? color;
 
   const CardData({
     required this.title,
     required this.imgUrl,
     this.description,
     this.link,
+    this.color,
   });
 
   factory CardData.fromJson(Map<String, dynamic> json) => _$CardDataFromJson(json);

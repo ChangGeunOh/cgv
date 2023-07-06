@@ -17,21 +17,20 @@ class LocalDataStore {
     return _sharedPreferences!;
   }
 
-  Future<void> saveFunctionMenuList(
-      List<FunctionMenuData> functionMenuList) async {
+  Future<void> saveFunctionMenuList(List<CardData> functionMenuList) async {
     final dataStore = await getSharedPreferences();
     final data = functionMenuList.map((e) => jsonEncode(e.toJson())).toList();
     await dataStore.setStringList(keyFunctionMenuList, data);
   }
 
-  Future<List<FunctionMenuData>> loadFunctionMenuList() async {
+  Future<List<CardData>> loadFunctionMenuList() async {
     final dataStore = await getSharedPreferences();
     final list =
         dataStore.getStringList(keyFunctionMenuList) ?? List<String>.empty();
-    return list.map((e) => FunctionMenuData.fromJson(jsonDecode(e))).toList();
+    return list.map((e) => CardData.fromJson(jsonDecode(e))).toList();
   }
 
-  Future<void> saveEventList(List<FunctionMenuData> eventList) async {
+  Future<void> saveEventList(List<CardData> eventList) async {
     final dataStore = await getSharedPreferences();
     await dataStore.setStringList(
       keyEventList,
@@ -39,11 +38,11 @@ class LocalDataStore {
     );
   }
 
-  Future<List<FunctionMenuData>> loadEventList() async {
+  Future<List<CardData>> loadEventList() async {
     final dataStore = await getSharedPreferences();
     return dataStore
             .getStringList(keyEventList)
-            ?.map((e) => FunctionMenuData.fromJson(jsonDecode(e)))
+            ?.map((e) => CardData.fromJson(jsonDecode(e)))
             .toList() ??
         List.empty();
   }
@@ -58,7 +57,7 @@ class LocalDataStore {
     saveData(keyBandBannerData, bandBannerData);
   }
 
-  Future<dynamic> loadData<T>(String key) async {
+  Future<dynamic> loadData(String key) async {
     final dataStore = await getSharedPreferences();
     final data = dataStore.getString(key);
     if (data != null) {
@@ -68,12 +67,12 @@ class LocalDataStore {
     }
   }
 
-  Future<void> saveData<T>(String key, T data) async {
+  Future<void> saveData(String key, Object data) async {
     final dataStore = await getSharedPreferences();
     dataStore.setString(key, jsonEncode(data));
   }
 
-  Future<List?> loadListData<T>(String key) async {
+  Future<List?> loadListData(String key) async {
     final dataStore = await getSharedPreferences();
     final list = dataStore.getStringList(key);
 
@@ -84,7 +83,7 @@ class LocalDataStore {
     }
   }
 
-  Future<void> saveListData<T>(String key, List<T> list) async {
+  Future<void> saveListData(String key, List<Object> list) async {
     final dataStore = await getSharedPreferences();
     final encodedList = list.map((e) => jsonEncode(e)).toList();
     await dataStore.setStringList(key, encodedList);

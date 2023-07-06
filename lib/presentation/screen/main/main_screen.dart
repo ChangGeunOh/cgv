@@ -42,7 +42,7 @@ class MainScreen extends StatelessWidget {
             backgroundColor: Colors.white,
             body: NestedScrollView(
               headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScalled) {
+                  (BuildContext context, bool innerBoxIsScaled) {
                 return [
                   SliverAppBar(
                     titleSpacing: 0.0,

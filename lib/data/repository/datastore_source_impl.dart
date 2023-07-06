@@ -7,6 +7,8 @@ import '../../domain/repository/datastore_source.dart';
 
 const keyIceIconList = 'ice_icon_list';
 const keyRecommendMovieList = 'recommend_movie_list';
+const keyAdEventData = 'ad_event_data';
+const keyAdEventList = 'ad_event_list';
 
 class DataStoreSourceImpl extends DataStoreSource {
   final LocalDataStore _dataStore;
@@ -17,23 +19,22 @@ class DataStoreSourceImpl extends DataStoreSource {
 
   @override
   Future<void> saveFunctionMenuList(
-    List<FunctionMenuData> functionMenuList,
-  ) async {
+      List<CardData> functionMenuList,) async {
     await _dataStore.saveFunctionMenuList(functionMenuList);
   }
 
   @override
-  Future<List<FunctionMenuData>> loadFunctionMenuList() async {
+  Future<List<CardData>> loadFunctionMenuList() async {
     return await _dataStore.loadFunctionMenuList();
   }
 
   @override
-  Future<List<FunctionMenuData>> loadEventList() async {
+  Future<List<CardData>> loadEventList() async {
     return await _dataStore.loadEventList();
   }
 
   @override
-  Future<void> saveEventList(List<FunctionMenuData> eventList) async {
+  Future<void> saveEventList(List<CardData> eventList) async {
     await _dataStore.saveEventList(eventList);
   }
 
@@ -68,5 +69,30 @@ class DataStoreSourceImpl extends DataStoreSource {
   @override
   Future<void> saveRecommendMovies(List<CardData> list) async {
     await _dataStore.saveListData(keyRecommendMovieList, list);
+  }
+
+  @override
+  Future<CardData?> loadAdEvent() async {
+    final data = await _dataStore.loadData(keyAdEventData);
+    return data != null ? CardData.fromJson(data) : null;
+  }
+  @override
+  Future<void> saveAdEvent(CardData data) async {
+    await _dataStore.saveData(keyAdEventData, data);
+  }
+
+  @override
+  Future<List<CardData>?> loadAdEventList() async {
+    final list = await _dataStore.loadListData(keyAdEventList);
+    if (list != null) {
+      return list.map((e) => CardData.fromJson(e)).toList();
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<void> saveAdEventList(List<CardData> list) async {
+    await _dataStore.saveListData(keyAdEventList, list);
   }
 }

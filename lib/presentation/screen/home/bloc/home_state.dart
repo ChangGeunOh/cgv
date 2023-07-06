@@ -13,11 +13,16 @@ class HomeState {
   final bool isMovieChart;
   final int indexSubMovieChart;
   final List<MovieData> movieList;
-  final List<FunctionMenuData> functionMenuList;
-  final List<FunctionMenuData> eventList;
+  final List<CardData> functionMenuList;
+  final List<CardData> eventList;
   final BandBannerData? bandBannerData;
   final List<CardData>? iceIconList;
   final List<CardData>? recommendMoviesList;
+  final CardData? popEventData;
+  final List<CardData>? popEventList;
+  final bool isShowTop;
+  final bool isPopShow;
+  final bool isNotToday;
 
   HomeState({
     int? index,
@@ -27,11 +32,16 @@ class HomeState {
     bool? isMovieChart,
     int? indexSubMovieChart,
     List<MovieData>? movieList,
-    List<FunctionMenuData>? functionMenuList,
-    List<FunctionMenuData>? eventList,
+    List<CardData>? functionMenuList,
+    List<CardData>? eventList,
     this.bandBannerData,
     this.iceIconList,
     this.recommendMoviesList,
+    this.popEventData,
+    this.popEventList,
+    bool? isShowTop,
+    bool? isPopShow,
+    bool? isNotToday,
   })  : index = index ?? 0,
         badge = badge ?? 0,
         banners = banners ?? List.empty(),
@@ -40,7 +50,10 @@ class HomeState {
         indexSubMovieChart = indexSubMovieChart ?? 0,
         movieList = movieList ?? List.empty(),
         functionMenuList = functionMenuList ?? List.empty(),
-        eventList = eventList ?? List.empty();
+        eventList = eventList ?? List.empty(),
+        isShowTop = isShowTop ?? false,
+        isPopShow = isPopShow ?? true,
+        isNotToday = isNotToday ?? false;
 
   HomeState copyWith({
     int? index,
@@ -50,11 +63,16 @@ class HomeState {
     bool? isMovieChart,
     int? indexSubMovieChart,
     List<MovieData>? movieList,
-    List<FunctionMenuData>? functionMenuList,
-    List<FunctionMenuData>? eventList,
+    List<CardData>? functionMenuList,
+    List<CardData>? eventList,
     BandBannerData? bandBannerData,
     List<CardData>? iceIconList,
     List<CardData>? recommendMoviesList,
+    CardData? popEventData,
+    List<CardData>? popEventList,
+    bool? isShowTop,
+    bool? isPopShow,
+    bool? isNotToday,
   }) {
     return HomeState(
       index: index ?? this.index,
@@ -69,6 +87,11 @@ class HomeState {
       bandBannerData: bandBannerData ?? this.bandBannerData,
       iceIconList: iceIconList ?? this.iceIconList,
       recommendMoviesList: recommendMoviesList ?? this.recommendMoviesList,
+      popEventData: popEventData ?? this.popEventData,
+      popEventList: popEventList ?? this.popEventList,
+      isShowTop: isShowTop ?? this.isShowTop,
+      isPopShow: isPopShow ?? this.isPopShow,
+      isNotToday: isNotToday ?? this.isNotToday,
     );
   }
 }
